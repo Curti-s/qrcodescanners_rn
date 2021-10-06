@@ -16,13 +16,19 @@ import {
   Text,
   useColorScheme,
   View,
+  Button,
 } from 'react-native';
 
 import {
   Colors,
-  ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import SingleScanScreen from './src/SingleScanners';
+import BulkScanScreen from './src/BulkScanners';
+
+const Stack = createNativeStackNavigator();
 
 const Section = ({ children, title }): Node => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -50,7 +56,7 @@ const Section = ({ children, title }): Node => {
   );
 };
 
-const App: () => Node = () => {
+const HomeScreen: () => Node = ({ navigation }) => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -58,29 +64,38 @@ const App: () => Node = () => {
   };
 
   return (
-    <NavigationContainer>
-      <SafeAreaView style={backgroundStyle}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={backgroundStyle}>
-          <View
-            style={{
-              backgroundColor: isDarkMode ? Colors.black : Colors.white,
-            }}>
-            <Section title="Single Scan">
-              Edit <Text style={styles.highlight}>App.js</Text> to change this
-              screen and then come back to see your edits.
-            </Section>
-            <Section title="Bulk Scan">
-              <ReloadInstructions />
-            </Section>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </NavigationContainer>
+    <SafeAreaView style={backgroundStyle}>
+      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        style={backgroundStyle}>
+        <View
+          style={{
+            backgroundColor: isDarkMode ? Colors.black : Colors.white,
+          }}>
+          <Section title="Single Scan">
+            <Button title="Go to Single scan implementations" onPress={() => navigation.navigate('singleScanScreen') } />
+          </Section>
+          <Section title="Bulk Scan">
+            <Button title="Go to Bulk scan implementations" onPress={() => navigation.navigate('bulkScanScreen') } />
+          </Section>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="home">
+        <Stack.Screen name="home" component={HomeScreen} />
+        <Stack.Screen name="singleScanScreen" component={SingleScanScreen} />
+        <Stack.Screen name="bulkScanScreen" component={BulkScanScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
 
 const styles = StyleSheet.create({
   sectionContainer: {
