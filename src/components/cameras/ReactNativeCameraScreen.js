@@ -19,6 +19,8 @@ export default class ReactNativeCameraScreen extends React.PureComponent {
     const { flashMode } = this.state;
     const { navigation } = this.props;
 
+    if(!navigation.isFocused()) return null;
+
     return (
       <View style={styles.container}>
         <RNCamera
