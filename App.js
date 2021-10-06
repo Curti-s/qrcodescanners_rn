@@ -19,6 +19,7 @@ import Section from './src/components/Sections';
 import ScreenWrapper from './src/components/ScreenWrapper';
 import SingleScanScreen from './src/SingleScanners';
 import BulkScanScreen from './src/BulkScanners';
+import ReactNativeCameraScreen from './src/components/cameras/ReactNativeCameraScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -42,6 +43,7 @@ const App = () => {
         <Stack.Screen name="home" component={HomeScreen} />
         <Stack.Screen name="singleScanScreen" component={SingleScanScreen} />
         <Stack.Screen name="bulkScanScreen" component={BulkScanScreen} />
+        <Stack.Screen name="rnCameraScreen" component={ReactNativeCameraScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
