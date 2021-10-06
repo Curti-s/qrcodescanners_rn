@@ -22,31 +22,28 @@ export default ({ children, title }): Node => {
         ]}>
         {title}
       </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
+      <View
+        style={styles.sectionBody}>
         {children}
-      </Text>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   sectionContainer: {
+    flex:1,
     marginTop: 32,
+    marginBottom: 4,
     paddingHorizontal: 24,
   },
   sectionTitle: {
     fontSize: 24,
     fontWeight: '600',
   },
-  sectionDescription: {
-    marginTop: 8,
+  sectionBody: {
+    flex: 1,
+    justifyContent: 'space-evenly',
     fontSize: 18,
-    fontWeight: '400',
   },
 });
