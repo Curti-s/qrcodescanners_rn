@@ -32,6 +32,9 @@ export default ({ navigation, route }) => {
         </View>
         <Button title="start scan" onPress={() => {
           setNativeCameraStartTime(Date.now());
+          setNativeCameraEndTime(0);
+          setNativeCameraCode(null);
+          navigation.setParams({ rnCameraBarcode:null, timeEnd:null });
           navigation.navigate('rnCameraScreen');
         }} />
       </Section>
