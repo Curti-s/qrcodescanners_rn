@@ -21,6 +21,7 @@ import SingleScanScreen from './src/SingleScanners';
 import BulkScanScreen from './src/BulkScanners';
 import ReactNativeCameraScreen from './src/components/cameras/ReactNativeCameraScreen';
 import HmsScankitScreen from './src/components/cameras/HmsScankitScreen';
+import VisionCameraScreen from './src/components/cameras/VisionCameraScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -46,6 +47,7 @@ const App = () => {
         <Stack.Screen name="bulkScanScreen" component={BulkScanScreen} />
         <Stack.Screen name="rnCameraScreen" component={ReactNativeCameraScreen} />
         <Stack.Screen name="hmsScreen" component={HmsScankitScreen} />
+        <Stack.Screen name="visionCameraScreen" component={VisionCameraScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

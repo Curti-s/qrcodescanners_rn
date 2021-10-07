@@ -63,6 +63,12 @@ export default ({ navigation, route }) => {
           navigation.navigate('hmsScreen');
           }} />
       </Section>
+      <Section title="Vision Camera">
+        <View style={{ flex:1 }}>
+          <Text style={{ fontSize:16, }}>Scanned results will appear here</Text>
+        </View>
+        <Button title="start scan" onPress={() => navigation.navigate('visionCameraScreen') }/>
+      </Section>
     </ScreenWrapper>
   );
 }
