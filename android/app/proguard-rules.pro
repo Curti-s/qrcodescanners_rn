@@ -17,3 +17,4 @@
 -keep class com.huawei.updatesdk.**{*;}
 -keep class com.huawei.hms.**{*;}
 -repackageclasses
+-keep class com.facebook.react.turbomodule.** { *; }
