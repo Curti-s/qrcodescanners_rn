@@ -187,6 +187,9 @@ android {
 
         }
     }
+    packagingOptions { // see https://github.com/mrousavy/react-native-vision-camera/issues/365
+      pickFirst '**/*.so'
+    }
 }
 
 dependencies {
