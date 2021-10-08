@@ -69,6 +69,12 @@ export default ({ navigation, route }) => {
         </View>
         <Button title="start scan" onPress={() => navigation.navigate('visionCameraScreen') }/>
       </Section>
+      <Section title="Scandit">
+        <View style={{ flex:1 }}>
+          <Text style={{ fontSize:16, }}>Scanned results will appear here</Text>
+        </View>
+        <Button title="start scan" onPress={() => navigation.navigate('scanditCameraScreen') }/>
+      </Section>
     </ScreenWrapper>
   );
 }
