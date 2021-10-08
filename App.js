@@ -5,7 +5,7 @@
  * @format
  * @flow strict-local
  */
-
+import 'react-native-reanimated';
 import React from 'react';
 import type { Node } from 'react';
 import {
