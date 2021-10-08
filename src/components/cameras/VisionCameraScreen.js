@@ -7,17 +7,19 @@ import React, {
 import {
   View,
   StyleSheet,
-  Text,
   ActivityIndicator,
-  Pressable,
 } from 'react-native';
 import  {
   Camera,
   useCameraDevices,
+  useFrameProcessor,
 } from 'react-native-vision-camera';
 import {
   Button,
 } from 'react-native-paper';
+import {
+  scanQRCodes,
+} from 'vision-camera-qrcode-scanner';
 
 export default ({ navigation }) => {
   const isMounted = useRef(false);
@@ -60,9 +62,23 @@ export default ({ navigation }) => {
   const devices = useCameraDevices();
   const device = devices.back;
 
+  const frameProcessor = useFrameProcessor(frame => {
+    if(frame) {
+      'worklet';
+      try {
+        // const qrCodes = scanQRCodes(frame);
+        console.log(`logging frameProcessor ${JSON.stringify({})}`);
+      } catch(err) {
+        console.error(`frameprocessor failed: ${JSON.stringify(err)}`);
+      }
+    }
+  }, []);
+
   const toggleFlash = useCallback(() => setFlash(f => (f === 'off' ? 'on' : 'off')));
+  const onError = useCallback(err => console.error(err));
 
   if(device == null) return <ActivityIndicator />;
+
 
   return (
     <View style={styles.container}>
@@ -70,6 +86,8 @@ export default ({ navigation }) => {
         device={device}
         isActive={isActive}
         torch={flash}
+        onError={onError}
+        frameProcessor={frameProcessor}
       />
       <View style={{ backgroundColor:'transparent', alignItems:'flex-end' }}>
         <Button icon="flash" color="white" mode="text" onPress={toggleFlash}>Flash</Button>
