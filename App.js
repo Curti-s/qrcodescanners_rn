@@ -6,10 +6,14 @@
  * @flow strict-local
  */
 import 'react-native-reanimated';
-import React from 'react';
+import React, {
+  useState,
+  useEffect,
+} from 'react';
 import type { Node } from 'react';
 import {
   Button,
+  PermissionsAndroid,
 } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -28,6 +32,33 @@ import ScanditCameraScreen from './src/components/cameras/ScanditCameraScreen';
 const Stack = createNativeStackNavigator();
 
 const HomeScreen: () => Node = ({ navigation }) => {
+  const [hasCameraPermission, setCameraPermission] = useState(false);
+
+  useEffect(() => {
+    const checkForPermission  = async () => {
+      const cameraPermission = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.CAMERA);
+      if(!cameraPermission) {
+        await requestCameraPermission(cameraPermission);
+      } else {
+        setCameraPermission(true);
+      }
+    };
+
+    const requestCameraPermission = async cameraPermission => {
+      if(!cameraPermission) {
+        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
+
+        if(granted === PermissionsAndroid.RESULTS.GRANTED) {
+          setCameraPermission(true);
+        } else {
+          console.error(`camera permission denied`);
+          setCameraPermission(false);
+        }
+      }
+    };
+    checkForPermission();
+  },[hasCameraPermission]);
+
   return (
     <ScreenWrapper>
       <Section title="Single Scan">
