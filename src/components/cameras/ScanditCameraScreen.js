@@ -27,7 +27,7 @@ import {
   VideoResolution,
 } from 'scandit-react-native-datacapture-core';
 
-export default () => {
+export default ({ navigation }) => {
   // barcode capture settings
   const settings = new BarcodeCaptureSettings();
   settings.enableSymbologies([
@@ -52,10 +52,17 @@ export default () => {
 
   // barcode capture listener
   const barcodeCaptureListener = {
-    didScan: (barcodeCapture, session) => {
-      const recognizedBarcodes = session.newlyRecognizedBarcodes;
-      console.log(`recognizedBarcodes: ${JSON.stringify(recognizedBarcodes)}`);
-      console.log(`setupScanning: didScan: ${JSON.stringify(barcodeCapture)}`)
+    didScan: (_, session) => {
+      const { data } = session.newlyRecognizedBarcodes[0];
+
+      cameraContext.dispose();
+      barcodeCapture.current.isEnabled = false;
+
+      navigation.navigate({
+        name:'singleScanScreen',
+        params: { scanditBarcode:data, scanditTimeEnd:Date.now() },
+        merge:true,
+      });
     }
   };
 

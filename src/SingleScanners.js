@@ -15,6 +15,9 @@ export default ({ navigation, route }) => {
   const [hmsCode, setHmsCode] = useState(null);
   const [hmsStartTime, setHmsStartTime] = useState(0);
   const [hmsEndTime, setHmsEndTime] = useState(0);
+  const [scanditCode, setScanditCode] = useState(null);
+  const [scanditStartTime, setScanditStartTime] = useState(0);
+  const [scanditEndTime, setScanditEndTime] = useState(0);
 
   useEffect(() => {
     if(route?.params?.rnCameraBarcode) {
@@ -33,6 +36,15 @@ export default ({ navigation, route }) => {
       setHmsEndTime(route.params.hmsTimeEnd);
     }
   },[route?.params?.hmsBarcode, route?.params?.hmsTimeEnd]);
+
+  useEffect(() => {
+    if(route?.params?.scanditBarcode) {
+      setScanditCode(route.params.scanditBarcode);
+    }
+    if(route?.params?.scanditTimeEnd) {
+      setScanditEndTime(route.params.scanditTimeEnd);
+    }
+  },[route?.params?.scanditBarcode, route?.params?.scanditTimeEnd]);
 
   return (
     <ScreenWrapper>
@@ -60,6 +72,7 @@ export default ({ navigation, route }) => {
           setHmsStartTime(Date.now());
           setHmsEndTime(0);
           setHmsCode(null);
+          navigation.setParams({ hmsBarcode:null, hmsTimeEnd:null });
           navigation.navigate('hmsScreen');
           }} />
       </Section>
@@ -71,9 +84,17 @@ export default ({ navigation, route }) => {
       </Section>
       <Section title="Scandit">
         <View style={{ flex:1 }}>
-          <Text style={{ fontSize:16, }}>Scanned results will appear here</Text>
+          <Text style={{ fontSize:16, }}>{!!scanditCode ?
+            `Barcode ${scanditCode} Time taken:${(!!scanditStartTime && !!scanditEndTime) && scanditEndTime - scanditStartTime} ms` :
+            'Scanned results will appear here'}</Text>
         </View>
-        <Button title="start scan" onPress={() => navigation.navigate('scanditCameraScreen') }/>
+        <Button title="start scan" onPress={() => {
+          setScanditStartTime(Date.now());
+          setScanditEndTime(0);
+          setScanditCode(null);
+          navigation.setParams({ scanditBarcode:null, scanditTimeEnd:0 });
+          navigation.navigate('scanditCameraScreen');
+        }}/>
       </Section>
     </ScreenWrapper>
   );
