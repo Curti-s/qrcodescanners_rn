@@ -125,7 +125,6 @@ export default () => {
   const handleAppStateChange = async nextAppState => {
     if (nextAppState.match(/inactive|background/)) {
       stopCamera();
-      cameraContext.dispose();
     } else {
       setupScanning();
       startCamera();
