@@ -27,6 +27,7 @@ import {
   RectangularViewfinder,
   RectangularViewfinderStyle,
   RectangularViewfinderLineStyle,
+  VideoResolution,
 } from 'scandit-react-native-datacapture-core';
 
 const isAndroidMarshmallowOrNewer = Platform.OS === 'android' && Platform.Version >= 23
@@ -38,12 +39,22 @@ export default () => {
     Symbology.QR,
   ]);
 
+  const isMounted = useRef();
   const viewRef = useRef();
   const [cameraContext, setCameraContext] = useState(DataCaptureContext
         .forLicenseKey("AQSQtiTbBLZtCK1RGzN5SW8Wrwi9AW2SAGw//VtfjUVSbBAz/UEFOKotrjY6LB9Yr27oz2VZSR+XTldSzXh8tpBNb+jwJtdYnxEyK6Jh1SD3e7UrSnYWrnJhA7POPN5MairK4xwVPYDjbCf4eWJ5pIYAKzyDLSNOSl4Z5UhBtuUzc07AMRf4I88fJjw4bHb8p1r2ftxvQA40cg3gwkp9ioVmyuRaTFAB+HAibRdWKXB8U9+22W/OVE5w5ilFRO5R2Ww+M4le0CaycRnSgyi+QAJUJ9k0e/W27WW9ETFWY6YpVqivyRYiKVpe3QQDQhCqJF1xECsHa1snboh6s2kWij1FltcfdiVdKRh6foNOt+u0RkekiEKkdJcGPxIIQFFVPVAf5RlBmCEwdHTYtibnDa9KjEqHVUqIN2juuf5eT3YdUMv9w3EH4iB13WPRTrfRP2/2CXAOq9Hab/pcvUBqGews44rBRHDtjQC+HfRNbh8VbsmICUR4TYNePqhaO732hntYKfth8k2Ydesn+m/xJURvzZyrUeQ8FEjDJLAZ0MpJEJ2VFUHhaijDNlhSRoU1qiWKl1TduN5z4AAvgBng7UKqJsKummCN1P2iHssCzRLrbTWx8/yXTRvr5Ixq6u52XRtbDbyI0lIcoa4K1Bb6seP+WgV1xd8RERouCMdDPiNbUkxIFH1DdMCxTkdrX04LAYsJAhuwUkdWfqPVXzqTxlDuOJ73pVDH5P2NT4aJIjenSgSX1XWH2Q8z6DPV6cgs4BnnG0RqvIA1RvxXkO2b4ufuhYL0eo7x2LeXC4fFSohFR8KLv+Og27TLYivK99iyEey2/CaXxJbM7W/z1cAf2eQ0C4fEXOF5OIuU6Lc9Z4OCk7DeTl33+TDygL8xE8eHsuHjP58qMFKjUE6d+9MNwTkvg2J+FT2xNTwXeKJPhUiwUYLx9BjR3TNAaoMUUOP7ANNMf3FnRvZHFTjxzppy6+Y7oBvMD1XSae0CQDZt2YXUNITAI6lyNoJxZCHhHhxTMzHa4nLDhOAeeMBHqU1ubK1wPHjIz9td+wtRXQ5QcnepSnMVNVwDDi7IdbndNn89W9OxSfMCwHwNSeCpU+ggIj3sP1Amuzegs9+2w1EzklrWchTr+irjBijy6CpaNnPfZSoi9BiCjvAdbC0lpw3frFj8eqJy+JcoYV7jV8+zLoa8indMdNkC705KIpP0Ecs61Ca4e2B27GxUPJHNNHIh1A=="));
   const [camera, setCamera] = useState(Camera.default);
   const [hasCameraPermission, setCameraPermission] = useState(false);
   const [capturedBarcode, setCaptureBarcode] = useState(BarcodeCapture.forContext(cameraContext, settings));
+
+  useEffect(() => {
+    // track mounted state
+    isMounted.current = true;
+
+    return () => {
+      isMounted.current = false;
+    }
+  }, []);
 
   useEffect(() => {
     const checkForPermission  = async () => {
@@ -102,7 +113,7 @@ export default () => {
 
         }
       } catch(err) {
-        console.error(`failed to set up camera: ${JSON.stringify(err)}`);
+        console.error(`failed to set up camera: ${typeof err === 'object' ? JSON.stringify(err) : err}`);
       }
     };
     setupScanning();
@@ -111,22 +122,25 @@ export default () => {
   useEffect(() => {
     const startCamera = () => {
       try {
-        if(camera) {
+        if(isMounted.current && camera) {
           const cameraSettings = BarcodeCapture.recommendedCameraSettings;
           camera.applySettings(cameraSettings);
+          cameraSettings.preferredResolution = VideoResolution.FullHD;
           cameraContext.setFrameSource(camera);
 
-          camera.switchToDesiredState(FrameSourceState.On);
-          setCaptureBarcode(p => ({ ...p, isEnabled:true }));
+          if(hasCameraPermission) {
+            camera.switchToDesiredState(FrameSourceState.On);
+            setCaptureBarcode(p => ({ ...p, isEnabled:true }));
+          }
         } else {
           setCamera(Camera.default);
         }
       } catch(err) { 
-        console.error(`failed to start camera: ${JSON.stringify(err)}`);
+        console.error(`failed to start camera: ${typeof err === 'object' ? JSON.stringify(err) : err}`);
       }
     };
     startCamera();
-  }, []);
+  }, [hasCameraPermission]);
 
   const stopCamera = () => {
     if(camera) {
@@ -145,6 +159,19 @@ export default () => {
       startCamera();
     }
   };
+
+  useEffect(() => {
+    let appStateSubscription = null;
+    if(isMounted.current) {
+      appStateSubscription = AppState.addEventListener('change', handleAppStateChange);
+    }
+    return () => {
+      if(!isMounted.current && appStateSubscription) {
+        appStateSubscription.remove();
+      }
+    }
+  },[]);
+
 
   const { desiredState } = camera;
   
