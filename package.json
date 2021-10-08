@@ -22,6 +22,8 @@
     "react-native-screens": "^3.8.0",
     "react-native-vector-icons": "^8.1.0",
     "react-native-vision-camera": "^2.8.3",
+    "scandit-react-native-datacapture-barcode": "6.9.2",
+    "scandit-react-native-datacapture-core": "6.9.2",
     "vision-camera-qrcode-scanner": "^0.1.3"
   },
   "devDependencies": {

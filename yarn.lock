@@ -5727,6 +5727,18 @@ saxes@^5.0.1:
   dependencies:
     xmlchars "^2.2.0"
 
+scandit-react-native-datacapture-barcode@6.9.2:
+  version "6.9.2"
+  resolved "https://registry.yarnpkg.com/scandit-react-native-datacapture-barcode/-/scandit-react-native-datacapture-barcode-6.9.2.tgz#404329e1f317e429198d50372a8e2a3af4e9b914"
+  integrity sha512-j0D1QWjPNMBgbWiFPLE3K6hi3Uh/6Y0n/MnwxXksFHGCMa1VvqZP3DfkpIHYxrapCdS6KnHdSysViPO4E7aCFQ==
+  dependencies:
+    scandit-react-native-datacapture-core "6.9.2"
+
+scandit-react-native-datacapture-core@6.9.2:
+  version "6.9.2"
+  resolved "https://registry.yarnpkg.com/scandit-react-native-datacapture-core/-/scandit-react-native-datacapture-core-6.9.2.tgz#eabbbf862879a580df55a860fb24795b76249601"
+  integrity sha512-qKSgxGsYhbclf6IdbaK1bFVlVNvsZUtY13IQ9v3PHPW0xpeo6z32klsAZPu6IFaBWniw4cH0YWbAUzWKVq69uQ==
+
 scheduler@^0.20.2:
   version "0.20.2"
   resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.20.2.tgz#4baee39436e34aa93b4874bddcbf0fe8b8b50e91"
