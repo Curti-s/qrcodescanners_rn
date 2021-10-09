@@ -1,5 +1,4 @@
 import React, {
-  useState,
   useEffect,
   useRef,
 } from 'react';
@@ -10,7 +9,6 @@ import ScanPlugin from '@hmscore/react-native-hms-scan';
 
 export default ({ navigation }) => {
   const isMounted = useRef(false);
-  const [hasPermission, setHasPermission] = useState(false);
 
   useEffect(() => {
     // track mounted state
@@ -20,21 +18,6 @@ export default ({ navigation }) => {
       isMounted.current = false;
     }
   }, []);
-
-  useEffect(() => {
-    // call requestCameraAndStoragePermission API
-    if(isMounted.current) {
-      ScanPlugin.Permission.hasCameraAndStoragePermission()
-        .then(res => setHasPermission(res))
-        .catch(err => console.error(`has camera & storage permission failed: ${JSON.stringify(err, null, 1)}`));
-
-      if(!hasPermission) {
-        ScanPlugin.Permission.requestCameraAndStoragePermission()
-          .then(res => setHasPermission(res))
-          .catch(err => console.error(`request camera & storage permission failed: ${JSON.stringify(err)}`));
-      }
-    }
-  }, [hasPermission]);
 
   const customizedViewRequest = {
     scanType: 0, // ScanPlugin.ScanType.All
