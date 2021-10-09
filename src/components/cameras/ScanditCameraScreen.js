@@ -4,9 +4,12 @@ import React, {
 } from 'react';
 import {
   AppState,
+  View,
+  StyleSheet,
 } from 'react-native';
 import {
   ActivityIndicator,
+  Button,
 } from 'react-native-paper';
 import {
   BarcodeCapture,
@@ -24,6 +27,7 @@ import {
   RectangularViewfinder,
   RectangularViewfinderStyle,
   RectangularViewfinderLineStyle,
+  TorchState,
   VideoResolution,
 } from 'scandit-react-native-datacapture-core';
 
@@ -55,6 +59,9 @@ export default ({ navigation }) => {
     didScan: (_, session) => {
       const { data } = session.newlyRecognizedBarcodes[0];
 
+      if(camera.current.desiredTorchState == TorchState.On) {
+        camera.current.desiredTorchState = TorchState.Off;
+      }
       cameraContext.dispose();
       barcodeCapture.current.isEnabled = false;
 
@@ -125,6 +132,7 @@ export default ({ navigation }) => {
   const stopCamera = () => {
     if(camera) {
       camera.current.switchToDesiredState(FrameSourceState.Off);
+      camera.current.desiredTorchState = TorchState.Off;
       barcodeCapture.current.isEnabled = false;
     }
   };
@@ -156,11 +164,27 @@ export default ({ navigation }) => {
     }
   },[]);
 
+  const toggleFlash = () => {
+    if(camera.current.desiredTorchState === TorchState.Off) {
+      camera.current.desiredTorchState = TorchState.On;
+    } else {
+      camera.current.desiredTorchState = TorchState.Off;
+    }
+  }
+
+
   const { desiredState } = camera;
   
   if(desiredState === 'off') {
     return <ActivityIndicator animating />
   }
 
-  return <DataCaptureView style={{ flex:1 }} context={cameraContext} ref={viewRef} />;
+  return (
+    <View style={{ flex:1, backgroundColor:"black" }}>
+      <DataCaptureView style={{ flex:1, ...StyleSheet.absoluteFill}} context={cameraContext} ref={viewRef} />
+      <View style={{ backgroundColor:'transparent', alignItems:'flex-end' }}>
+        <Button icon="flash" color="white" mode="text" onPress={toggleFlash}>Flash</Button>
+      </View>
+    </View>
+    );
 }
