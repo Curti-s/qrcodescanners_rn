@@ -46,7 +46,11 @@ export default ({ navigation }) => {
       ScanPlugin.CustomizedView.onStopListenerAdd(() => navigation.pop());
     }
 
-    return () => ScanPlugin.CustomizedView.allListenersRemove();
+    return () => {
+      if(!isMounted.current) {
+        ScanPlugin.CustomizedView.allListenersRemove();
+      }
+    }
   },[]);
 
   return (
