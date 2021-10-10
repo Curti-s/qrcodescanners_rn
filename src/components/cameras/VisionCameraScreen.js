@@ -21,6 +21,9 @@ import {
 import {
   scanQRCodes,
 } from 'vision-camera-qrcode-scanner';
+import {
+  runOnJS,
+} from 'react-native-reanimated';
 
 export default ({ navigation }) => {
   const isMounted = useRef(false);
@@ -60,9 +63,35 @@ export default ({ navigation }) => {
     })();
   },[cameraPermission]);
 
+
+  const devices = useCameraDevices();
+  const device = devices.back;
+
+  const frameProcessor = useFrameProcessor(frame => {
+    'worklet';
+    if(isMounted.current) {
+      try {
+        const qrCodeData = scanQRCodes(frame);
+        if(qrCodeData.length) {
+          const { displayValue } = qrCodeData[0];
+
+          runOnJS(setFlash)('off');
+          runOnJS(navigation.navigate)({
+            name:'singleScanScreen',
+            params: { visionCameraBarcode:displayValue, visionCameraTimeEnd:Date.now() },
+            merge:true,
+          });
+        }
+      } catch(err) {
+        console.error(`frameprocessor failed: ${JSON.stringify(err)} ${err}`);
+      }
+    }
+  }, [isMounted.current, flash]);
+
   useEffect(() => {
     const handleAppStateChange = async nextAppState => {
-      if(nextAppState.match(/inactive|background/)) {
+      if(!nextAppState.match(/active/)) {
+        console.log(`flash: ${flash} appState ${AppState.currentState}`)
         if(flash === 'on') setFlash('off')
       }
     }
@@ -74,28 +103,16 @@ export default ({ navigation }) => {
         appStateSubscription.remove();
       }
     }
-  },[])
+  },[AppState.currentState, flash]);
 
-  const devices = useCameraDevices();
-  const device = devices.back;
-
-  const frameProcessor = useFrameProcessor(frame => {
-    if(frame) {
-      'worklet';
-      try {
-        // const qrCodes = scanQRCodes(frame);
-        console.log(`logging frameProcessor ${JSON.stringify({})}`);
-      } catch(err) {
-        console.error(`frameprocessor failed: ${JSON.stringify(err)}`);
-      }
-    }
-  }, []);
-
-  const toggleFlash = useCallback(() => setFlash(f => (f === 'off' ? 'on' : 'off')));
+  const toggleFlash = useCallback(() => setFlash(f => (f === 'off' ? 'on' : 'off')),[flash]);
   const onError = useCallback(err => console.error(err));
 
-  if(device == null || !navigation.isFocused()) return <ActivityIndicator />;
--
+  if(device == null || !navigation.isFocused()) {
+    if(flash === 'on') setFlash('off');
+    return <ActivityIndicator />;
+  }
+
 
   return (
     <View style={styles.container}>
@@ -105,8 +122,9 @@ export default ({ navigation }) => {
         isActive={isActive}
         torch={flash}
         onError={onError}
-        frameProcessor={frameProcessor}
-      />
+        frameProcessor={device?.supportsParallelVideoProcessing ? frameProcessor : null}
+        />
+      )}
       <View style={{ backgroundColor:'transparent', alignItems:'flex-end' }}>
         <Button icon="flash" color="white" mode="text" onPress={toggleFlash}>Flash</Button>
       </View>

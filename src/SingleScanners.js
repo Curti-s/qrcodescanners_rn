@@ -12,9 +12,15 @@ export default ({ navigation, route }) => {
   const [nativeCameraCode, setNativeCameraCode] = useState(null);
   const [nativeCameraStartTime, setNativeCameraStartTime] = useState(0);
   const [nativeCameraEndTime, setNativeCameraEndTime] = useState(0);
+
   const [hmsCode, setHmsCode] = useState(null);
   const [hmsStartTime, setHmsStartTime] = useState(0);
   const [hmsEndTime, setHmsEndTime] = useState(0);
+  
+  const [visionCameraCode, setVisionCameraCode] = useState(null);
+  const [visionCameraStartTime, setVisionCameraStartTime] = useState(0);
+  const [visionCameraEndTime, setVisionCameraEndTime] = useState(0);
+
   const [scanditCode, setScanditCode] = useState(null);
   const [scanditStartTime, setScanditStartTime] = useState(0);
   const [scanditEndTime, setScanditEndTime] = useState(0);
@@ -36,6 +42,15 @@ export default ({ navigation, route }) => {
       setHmsEndTime(route.params.hmsTimeEnd);
     }
   },[route?.params?.hmsBarcode, route?.params?.hmsTimeEnd]);
+
+  useEffect(() => {
+    if(route?.params?.visionCameraBarcode) {
+      setVisionCameraCode(route.params.visionCameraBarcode);
+    }
+    if(route?.params?.visionCameraTimeEnd) {
+      setVisionCameraEndTime(route.params.visionCameraTimeEnd);
+    }
+  },[route?.params?.visionCameraBarcode, route?.params?.visionCameraTimeEnd]);
 
   useEffect(() => {
     if(route?.params?.scanditBarcode) {
@@ -78,9 +93,17 @@ export default ({ navigation, route }) => {
       </Section>
       <Section title="Vision Camera">
         <View style={{ flex:1 }}>
-          <Text style={{ fontSize:16, }}>Scanned results will appear here</Text>
+          <Text style={{ fontSize:16, }}>{!!visionCameraCode ?
+            `Barcode ${visionCameraCode} Time taken:${(!!visionCameraStartTime && !!visionCameraEndTime) && visionCameraEndTime - visionCameraStartTime} ms` :
+            'Scanned results will appear here'}</Text>
         </View>
-        <Button title="start scan" onPress={() => navigation.navigate('visionCameraScreen') }/>
+        <Button title="start scan" onPress={() => {
+          setVisionCameraStartTime(Date.now());
+          setVisionCameraEndTime(0);
+          setVisionCameraCode(null);
+          navigation.setParams({ visionCameraBarcode:null, visionCameraTimeEnd:0 });
+          navigation.navigate('visionCameraScreen');
+        }}/>
       </Section>
       <Section title="Scandit">
         <View style={{ flex:1 }}>
