@@ -5,6 +5,7 @@ import React, {
   useCallback,
 } from 'react';
 import {
+  AppState,
   View,
   StyleSheet,
   ActivityIndicator,
@@ -59,6 +60,22 @@ export default ({ navigation }) => {
     })();
   },[cameraPermission]);
 
+  useEffect(() => {
+    const handleAppStateChange = async nextAppState => {
+      if(nextAppState.match(/inactive|background/)) {
+        if(flash === 'on') setFlash('off')
+      }
+    }
+
+    const appStateSubscription = AppState.addEventListener('change', handleAppStateChange);
+
+    return () => {
+      if(appStateSubscription) {
+        appStateSubscription.remove();
+      }
+    }
+  },[])
+
   const devices = useCameraDevices();
   const device = devices.back;
 
@@ -77,12 +94,13 @@ export default ({ navigation }) => {
   const toggleFlash = useCallback(() => setFlash(f => (f === 'off' ? 'on' : 'off')));
   const onError = useCallback(err => console.error(err));
 
-  if(device == null) return <ActivityIndicator />;
-
+  if(device == null || !navigation.isFocused()) return <ActivityIndicator />;
+-
 
   return (
     <View style={styles.container}>
-      <Camera style={StyleSheet.absoluteFill}
+      {device != null && (
+        <Camera style={StyleSheet.absoluteFill}
         device={device}
         isActive={isActive}
         torch={flash}
