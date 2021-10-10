@@ -24,7 +24,7 @@
     "react-native-vision-camera": "^2.8.3",
     "scandit-react-native-datacapture-barcode": "6.9.2",
     "scandit-react-native-datacapture-core": "6.9.2",
-    "vision-camera-qrcode-scanner": "^0.1.3"
+    "vision-camera-qrcode-scanner": "https://github.com/rodgomesc/vision-camera-qrcode-scanner.git"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

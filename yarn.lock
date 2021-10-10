@@ -6545,10 +6545,9 @@ vary@~1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
-vision-camera-qrcode-scanner@^0.1.3:
+"vision-camera-qrcode-scanner@https://github.com/rodgomesc/vision-camera-qrcode-scanner.git":
   version "0.1.3"
-  resolved "https://registry.yarnpkg.com/vision-camera-qrcode-scanner/-/vision-camera-qrcode-scanner-0.1.3.tgz#58bcf63174fc1ef630ca47b7a008d198442ef893"
-  integrity sha512-mVNJdJsXVyx7EPqo2uvc4USiI4FJmTYVYHpbIZzmh3uxgNG8Yf9fNET3jK7Fq+1/QK/8txmDR6er4T5nwRVjhA==
+  resolved "https://github.com/rodgomesc/vision-camera-qrcode-scanner.git#c4290282a8187f37d31d37311735276370803c54"
 
 vlq@^1.0.0:
   version "1.0.1"
