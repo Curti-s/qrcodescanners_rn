@@ -226,6 +226,7 @@ dependencies {
     }
 
     implementation project(":react-native-hms-scan")
+    implementation 'com.google.mlkit:barcode-scanning:17.0.0' // bundled w/ the app
 }
 
 // Run this once to be able to run the application with BUCK
