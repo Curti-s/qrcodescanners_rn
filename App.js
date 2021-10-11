@@ -76,13 +76,13 @@ const App = () => {
     <PaperProvider>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="home">
-          <Stack.Screen name="home" component={HomeScreen} />
-          <Stack.Screen name="singleScanScreen" component={SingleScanScreen} />
-          <Stack.Screen name="bulkScanScreen" component={BulkScanScreen} />
-          <Stack.Screen name="rnCameraScreen" component={ReactNativeCameraScreen} />
-          <Stack.Screen name="hmsScreen" component={HmsScankitScreen} />
-          <Stack.Screen name="visionCameraScreen" component={VisionCameraScreen} />
-          <Stack.Screen name="scanditCameraScreen" component={ScanditCameraScreen} />
+          <Stack.Screen name="home"                options={{ title:'Home' }}                  component={HomeScreen} />
+          <Stack.Screen name="singleScanScreen"    options={{ title:'Single Scan' }}           component={SingleScanScreen} />
+          <Stack.Screen name="bulkScanScreen"      options={{ title:'Bulk Scan' }}             component={BulkScanScreen} />
+          <Stack.Screen name="rnCameraScreen"      options={{ title:'RNCamera Scanner' }}      component={ReactNativeCameraScreen} />
+          <Stack.Screen name="hmsScreen"           options={{ title:'Scankit Scanner' }}       component={HmsScankitScreen} />
+          <Stack.Screen name="visionCameraScreen"  options={{ title:'Vision Camera Scanner' }} component={VisionCameraScreen} />
+          <Stack.Screen name="scanditCameraScreen" option={{ title:'Scandit Scanner' }}        component={ScanditCameraScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
