@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
-  Button,
 } from 'react-native';
+import {
+  Button,
+} from 'react-native-paper';
 
 import ScreenWrapper from './components/ScreenWrapper';
 import Section from  './components/Sections';
@@ -69,13 +71,15 @@ export default ({ navigation, route }) => {
             `Barcode ${nativeCameraCode} Time taken:${(!!nativeCameraEndTime && !!nativeCameraStartTime) && nativeCameraEndTime - nativeCameraStartTime} ms` : 
             'Scanned results will appear here'}</Text>
         </View>
-        <Button title="start scan" onPress={() => {
+        <Button icon="qrcode-scan" mode="contained" onPress={() => {
           setNativeCameraStartTime(Date.now());
           setNativeCameraEndTime(0);
           setNativeCameraCode(null);
           navigation.setParams({ rnCameraBarcode:null, timeEnd:null });
           navigation.navigate('rnCameraScreen');
-        }} />
+        }}>
+          Start Scan
+      </Button>
       </Section>
       <Section title="Scankit">
         <View style={{ flex:1 }}>
@@ -83,13 +87,15 @@ export default ({ navigation, route }) => {
             `Barcode ${hmsCode} Time taken:${(!!hmsStartTime && !!hmsEndTime) && hmsEndTime - hmsStartTime} ms` :
             'Scanned results will appear here'}</Text>
         </View>
-        <Button title="start scan" onPress={() => {
+        <Button icon="qrcode-scan" mode="contained" onPress={() => {
           setHmsStartTime(Date.now());
           setHmsEndTime(0);
           setHmsCode(null);
           navigation.setParams({ hmsBarcode:null, hmsTimeEnd:null });
           navigation.navigate('hmsScreen');
-          }} />
+        }}>
+          Start Scan
+        </Button>
       </Section>
       <Section title="Vision Camera">
         <View style={{ flex:1 }}>
@@ -97,13 +103,15 @@ export default ({ navigation, route }) => {
             `Barcode ${visionCameraCode} Time taken:${(!!visionCameraStartTime && !!visionCameraEndTime) && visionCameraEndTime - visionCameraStartTime} ms` :
             'Scanned results will appear here'}</Text>
         </View>
-        <Button title="start scan" onPress={() => {
+        <Button icon="qrcode-scan" mode="contained" onPress={() => {
           setVisionCameraStartTime(Date.now());
           setVisionCameraEndTime(0);
           setVisionCameraCode(null);
           navigation.setParams({ visionCameraBarcode:null, visionCameraTimeEnd:0 });
           navigation.navigate('visionCameraScreen');
-        }}/>
+        }}>
+          Start Scan
+        </Button>
       </Section>
       <Section title="Scandit">
         <View style={{ flex:1 }}>
@@ -111,13 +119,15 @@ export default ({ navigation, route }) => {
             `Barcode ${scanditCode} Time taken:${(!!scanditStartTime && !!scanditEndTime) && scanditEndTime - scanditStartTime} ms` :
             'Scanned results will appear here'}</Text>
         </View>
-        <Button title="start scan" onPress={() => {
+        <Button icon="qrcode-scan" mode="contained" onPress={() => {
           setScanditStartTime(Date.now());
           setScanditEndTime(0);
           setScanditCode(null);
           navigation.setParams({ scanditBarcode:null, scanditTimeEnd:0 });
           navigation.navigate('scanditCameraScreen');
-        }}/>
+        }}>
+          Start Scan
+        </Button>
       </Section>
     </ScreenWrapper>
   );

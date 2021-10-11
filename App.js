@@ -12,9 +12,11 @@ import React, {
 } from 'react';
 import type { Node } from 'react';
 import {
-  Button,
   PermissionsAndroid,
 } from 'react-native';
+import {
+  Button,
+} from 'react-native-paper';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -62,10 +64,21 @@ const HomeScreen: () => Node = ({ navigation }) => {
   return (
     <ScreenWrapper>
       <Section title="Single Scan">
-        <Button title="Go to Single scan implementations" onPress={() => navigation.navigate('singleScanScreen') } />
+        <Button 
+          icon="directions" 
+          mode="contained" 
+          contentStyle={{ justifyContent:'flex-start' }} 
+          onPress={() => navigation.navigate('singleScanScreen')}>
+           Single Scan implementations
+        </Button>
       </Section>
       <Section title="Bulk Scan">
-        <Button title="Go to Bulk scan implementations" onPress={() => navigation.navigate('bulkScanScreen') } />
+        <Button 
+          icon="directions" 
+          mode="contained" 
+          onPress={() => navigation.navigate('bulkScanScreen')}>
+           Bulk Scan implementations
+         </Button>
       </Section>
     </ScreenWrapper>
   );
