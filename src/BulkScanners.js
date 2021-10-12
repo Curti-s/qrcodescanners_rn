@@ -35,7 +35,7 @@ export default ({ navigation, route }) => {
   const renderRNCameraBarcodes = () => {
     if(nativeCameraCodes.length) {
       return (
-        <View style={{ flex:1, flexDirection:'row' }}>
+        <View style={{ flex:1, flexDirection:'row', flexWrap:'wrap' }}>
           { nativeCameraCodes.map(code => <Text style={{ fontSize:16, marginHorizontal:4, flexWrap:'wrap' }}>{code}</Text>) }
         </View>
       );
