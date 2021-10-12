@@ -47,7 +47,7 @@ export default ({ navigation, route }) => {
 
     return (
       <View style={{ flex:1 }}>
-        <Text style={{ fontWeight:'bold',  }}>{`Total barcodes scanned: ${totalBarcodes} TimeTaken: ${endTime - startTime}ms`}</Text>
+        <Text style={{ fontWeight:'bold' }}>{`Total barcodes scanned: ${totalBarcodes} TimeTaken: ${endTime - startTime}ms`}</Text>
       </View>
     );
   }
