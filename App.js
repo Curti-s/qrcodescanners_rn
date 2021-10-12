@@ -95,7 +95,7 @@ const App = () => {
           <Stack.Screen name="rnCameraScreen"      options={{ title:'RNCamera Scanner' }}      component={ReactNativeCameraScreen} />
           <Stack.Screen name="hmsScreen"           options={{ title:'Scankit Scanner' }}       component={HmsScankitScreen} />
           <Stack.Screen name="visionCameraScreen"  options={{ title:'Vision Camera Scanner' }} component={VisionCameraScreen} />
-          <Stack.Screen name="scanditCameraScreen" option={{ title:'Scandit Scanner' }}        component={ScanditCameraScreen} />
+          <Stack.Screen name="scanditCameraScreen" options={{ title:'Scandit Scanner' }}        component={ScanditCameraScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
