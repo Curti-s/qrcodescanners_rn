@@ -79,6 +79,31 @@ export default ({ navigation, route }) => {
           Start Bulk Scan
         </Button>
       </Section>
+      <Section title="Scankit Bulk Scan">
+        <View style={{ flex:1 }}>
+          <TextInput 
+            label="barcode count"
+            mode="outlined"
+            placeholder={`Enter barcode count. default is ${barcodeCount}`}
+            keyboardType="numeric"
+            value={barcodeCount.toString()}
+            onChangeText={t => setBarcodeCount(t)}
+          />
+          {renderRNCameraBarcodes()}
+          {renderBarcodeResults(nativeCameraCodes.length, nativeCameraStartTime, nativeCameraEndTime) || (
+            <Text style={{ fontSize:16 }}>Scanned results will appear here</Text>
+          )}
+        </View>
+        <Button icon="qrcode-scan" mode="contained" onPress={() => {
+          setNativeCameraStartTime(Date.now());
+          setNativeCameraEndTime(0);
+          setNativeCameraCodes([]);
+          navigation.setParams({ rnCameraBarcodes:null, timeEnd:null });
+          navigation.navigate('rnBulkScanScreen', { barcodeCount });
+        }}>
+          Start Bulk Scan
+        </Button>
+      </Section>
     </ScreenWrapper>
   );
 }

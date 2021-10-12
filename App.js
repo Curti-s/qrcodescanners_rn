@@ -31,6 +31,7 @@ import HmsScankitScreen from './src/components/single_scan_cameras/HmsScankitScr
 import VisionCameraScreen from './src/components/single_scan_cameras/VisionCameraScreen';
 import ScanditCameraScreen from './src/components/single_scan_cameras/ScanditCameraScreen';
 import RNCameraBulkScanScreen from './src/components/bulk_scan_cameras/RNCameraBulkScanScreen';
+import HmsScankitBulkScanScreen from './src/components/bulk_scan_cameras/HmsScankitBulkScanScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -98,7 +99,8 @@ const App = () => {
           <Stack.Screen name="visionCameraScreen"  options={{ title:'Vision Camera Scanner' }} component={VisionCameraScreen} />
           <Stack.Screen name="scanditCameraScreen" options={{ title:'Scandit Scanner' }}       component={ScanditCameraScreen} />
 
-          <Stack.Screen name="rnBulkScanScreen" options={{ title:'RNCamera Bulk Scanner' }} component={RNCameraBulkScanScreen} />
+          <Stack.Screen name="rnBulkScanScreen"      options={{ title:'RNCamera Bulk Scanner' }} component={RNCameraBulkScanScreen} />
+          <Stack.Screen name="scankitBulkScanScreen" options={{ title:'Scankit Bulk Scanner' }} component={HmsScankitBulkScanScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
