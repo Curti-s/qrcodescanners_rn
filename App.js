@@ -26,10 +26,10 @@ import Section from './src/components/Sections';
 import ScreenWrapper from './src/components/ScreenWrapper';
 import SingleScanScreen from './src/SingleScanners';
 import BulkScanScreen from './src/BulkScanners';
-import ReactNativeCameraScreen from './src/components/cameras/ReactNativeCameraScreen';
-import HmsScankitScreen from './src/components/cameras/HmsScankitScreen';
-import VisionCameraScreen from './src/components/cameras/VisionCameraScreen';
-import ScanditCameraScreen from './src/components/cameras/ScanditCameraScreen';
+import ReactNativeCameraScreen from './src/components/single_scan_cameras/RNativeCameraScreen';
+import HmsScankitScreen from './src/components/single_scan_cameras/HmsScankitScreen';
+import VisionCameraScreen from './src/components/single_scan_cameras/VisionCameraScreen';
+import ScanditCameraScreen from './src/components/single_scan_cameras/ScanditCameraScreen';
 
 const Stack = createNativeStackNavigator();
 
