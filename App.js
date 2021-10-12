@@ -30,6 +30,7 @@ import ReactNativeCameraScreen from './src/components/single_scan_cameras/RNativ
 import HmsScankitScreen from './src/components/single_scan_cameras/HmsScankitScreen';
 import VisionCameraScreen from './src/components/single_scan_cameras/VisionCameraScreen';
 import ScanditCameraScreen from './src/components/single_scan_cameras/ScanditCameraScreen';
+import RNCameraBulkScanScreen from './src/components/bulk_scan_cameras/RNCameraBulkScanScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -95,7 +96,9 @@ const App = () => {
           <Stack.Screen name="rnCameraScreen"      options={{ title:'RNCamera Scanner' }}      component={ReactNativeCameraScreen} />
           <Stack.Screen name="hmsScreen"           options={{ title:'Scankit Scanner' }}       component={HmsScankitScreen} />
           <Stack.Screen name="visionCameraScreen"  options={{ title:'Vision Camera Scanner' }} component={VisionCameraScreen} />
-          <Stack.Screen name="scanditCameraScreen" options={{ title:'Scandit Scanner' }}        component={ScanditCameraScreen} />
+          <Stack.Screen name="scanditCameraScreen" options={{ title:'Scandit Scanner' }}       component={ScanditCameraScreen} />
+
+          <Stack.Screen name="rnBulkScanScreen" options={{ title:'RNCamera Bulk Scanner' }} component={RNCameraBulkScanScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
