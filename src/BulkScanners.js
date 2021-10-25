@@ -20,6 +20,11 @@ export default ({ navigation, route }) => {
   const [nativeCameraStartTime, setNativeCameraStartTime] = useState(0);
   const [nativeCameraEndTime, setNativeCameraEndTime] = useState(0);
 
+  const [scankitBarcodeCount, setScankitBarcodeCount] = useState(2);
+  const [scankitCameraCodes, setScankitCameraCodes] = useState([]);
+  const [scankitCameraStartTime, setScankitCameraStartTime] = useState(0);
+  const [scankitCameraEndTime, setScankitCameraEndTime] = useState(0);
+
   useEffect(() => {
     if(route?.params?.rnCameraBarcodes) {
       const dataObj = JSON.parse(route.params.rnCameraBarcodes);
@@ -31,12 +36,22 @@ export default ({ navigation, route }) => {
     }
   },[route?.params?.rnCameraBarcodes, route?.params?.timeEnd]);
 
+  useEffect(() => {
+    if(route?.params?.scankitBarcodes) {
+      const dataObj = JSON.parse(route.params.scankitBarcodes);
+      const dataArr = dataObj['scankitBarcodeArr'].join(',').split(',');
+      setScankitCameraCodes(dataArr);
+    }
+    if(route?.params?.scankitTimeEnd) {
+      setScankitCameraEndTime(route.params.scankitTimeEnd);
+    }
+  },[route?.params?.scankitBarcodes, route?.params?.scankitTimeEnd]);
 
-  const renderRNCameraBarcodes = () => {
-    if(nativeCameraCodes.length) {
+  const renderBarCodes = barcodes => {
+    if(barcodes.length) {
       return (
         <View style={{ flex:1, flexDirection:'row', flexWrap:'wrap' }}>
-          { nativeCameraCodes.map(code => <Text style={{ fontSize:16, marginHorizontal:4, flexWrap:'wrap' }}>{code}</Text>) }
+          { barcodes.map(code => <Text key={`${Math.floor(Math.random() * 100)}_${code}`} style={{ fontSize:16, marginHorizontal:4, flexWrap:'wrap' }}>{code}</Text>) }
         </View>
       );
     }
@@ -64,7 +79,7 @@ export default ({ navigation, route }) => {
             value={barcodeCount.toString()}
             onChangeText={t => setBarcodeCount(t)}
           />
-          {renderRNCameraBarcodes()}
+          {renderBarCodes(nativeCameraCodes)}
           {renderBarcodeResults(nativeCameraCodes.length, nativeCameraStartTime, nativeCameraEndTime) || (
             <Text style={{ fontSize:16 }}>Scanned results will appear here</Text>
           )}
@@ -82,24 +97,24 @@ export default ({ navigation, route }) => {
       <Section title="Scankit Bulk Scan">
         <View style={{ flex:1 }}>
           <TextInput 
-            label="barcode count"
+            label="scankit barcode count"
             mode="outlined"
-            placeholder={`Enter barcode count. default is ${barcodeCount}`}
+            placeholder={`Enter barcode count. default is ${scankitBarcodeCount}`}
             keyboardType="numeric"
-            value={barcodeCount.toString()}
-            onChangeText={t => setBarcodeCount(t)}
+            value={scankitBarcodeCount.toString()}
+            onChangeText={t => setScankitBarcodeCount(t)}
           />
-          {renderRNCameraBarcodes()}
-          {renderBarcodeResults(nativeCameraCodes.length, nativeCameraStartTime, nativeCameraEndTime) || (
+          {renderBarCodes(scankitCameraCodes)}
+          {renderBarcodeResults(scankitCameraCodes.length, scankitCameraStartTime, scankitCameraEndTime) || (
             <Text style={{ fontSize:16 }}>Scanned results will appear here</Text>
           )}
         </View>
         <Button icon="qrcode-scan" mode="contained" onPress={() => {
-          setNativeCameraStartTime(Date.now());
-          setNativeCameraEndTime(0);
-          setNativeCameraCodes([]);
-          navigation.setParams({ rnCameraBarcodes:null, timeEnd:null });
-          navigation.navigate('rnBulkScanScreen', { barcodeCount });
+          setScankitCameraStartTime(Date.now());
+          setScankitCameraEndTime(0);
+          setScankitCameraCodes([]);
+          navigation.setParams({ scankitBarcodes:null, scankitTimeEnd:null });
+          navigation.navigate('scankitBulkScanScreen', { scankitBarcodeCount });
         }}>
           Start Bulk Scan
         </Button>
